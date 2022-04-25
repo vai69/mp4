@@ -6,48 +6,57 @@ const Vendors_per_area = ()=>{
 
     const [info , setInfo] = useState([]);
     const [loading, setloading]=useState(false);
+    const [pin,setPin] = useState([]);
+    const [cnt,setCnt] =useState([]);
 
-        useEffect(() => {
 
         const fetch_data=async ()=>{
-            console.log("here");
             const querySnapshot = await getDocs(collection(db, "customers"));
-            console.log(querySnapshot);
             querySnapshot.docs.forEach((element) => {
                 var data = element.data();
                 setInfo(arr => [...arr , data]);
             });
-            setloading(true);
-            console.log("Info===== "+info);
+            if(info.length>0)
+            {
+                const pincodes = info
+                    .map(dataItem => dataItem.pincode) // get all media types
+                    .filter((pincodes, index, array) => array.indexOf(pincodes) === index); // filter out duplicates
+                
+                    const counts = pincodes
+                    .map(pincode => ({
+                        type: pincode,
+                        count: info.filter(item => item.pincode === pincode).length
+                    }));
+                counts.forEach((element) => {
+                    console.log(element.type);
+                    setPin(arr => [...arr , `${element.type}`]);
+                    setCnt(arr => [...arr , `${element.count}`]);
+                });
+                console.log(pin);
+                console.log(cnt);
+                setloading(true);
+            }
+        }
             
-        
-    }
 
-        fetch_data();
         
-    });
+
     if(loading)
     {
+        console.log(info);
         return (
             <h1>In chartjs</h1>
         )
     }
     else
     {
+        fetch_data();
         return (
             <></>
         )
     }
 
-    // const mediaTypes = data
-    // .map(dataItem => dataItem.media_type) // get all media types
-    // .filter((mediaType, index, array) => array.indexOf(mediaType) === index); // filter out duplicates
-  
-    // const counts = mediaTypes
-    // .map(mediaType => ({
-    //     type: mediaType,
-    //     count: data.filter(item => item.media_type === mediaType).length
-    // }));
+    
 }
 export default Vendors_per_area;
 
