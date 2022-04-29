@@ -1,9 +1,9 @@
-import Vendors_per_area from "./chart_data/Vendors_per_area";
+import Customers_Per_District from "./chart_data/Customers_Per_District";
 
 function App() {
   return (
     <>
-      <Vendors_per_area />
+      <Customers_Per_District />
       <h1>In home</h1>
     </>
   );
