@@ -18,7 +18,7 @@ const Agency = (props)=>{
                     <button  class="btn-ag"><b>Customers Per Vendors</b></button>
                     {cpm==3 ? (<Test cnt={cpm}/>) :(<></>) }
                 </div> */}
-                <Customers_Per_District />
+                <Customers_Per_District info={props.Cust_data}/>
                 <Customers_Per_Product />
                 <Customers_Per_Vendors />
 

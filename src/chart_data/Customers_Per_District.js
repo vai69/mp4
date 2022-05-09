@@ -1,31 +1,25 @@
-
-import { useState,useEffect } from 'react';
+import { useState } from 'react';
 import {Bar} from 'react-chartjs-2';
 import { Chart, registerables } from 'chart.js';
 Chart.register(...registerables);
 
 
-const Customers_Per_District = ()=>{
+const Customers_Per_District = (props)=>{
 
-    const [info , setInfo] = useState([]);
     const [loading, setloading]=useState(false);
     const [pin,setPin] = useState([]);
     const [cnt,setCnt] =useState([]);
-    const [flg, setFlg]=useState(false);
 
 
         const fetch_data=async ()=>{
-            
-            if(info.length>0&&!loading)
-            {
-                const pincodes = info
+             const pincodes = props.info
                     .map(dataItem => dataItem.pincode) // get all media types
                     .filter((pincodes, index, array) => array.indexOf(pincodes) === index); // filter out duplicates
                 
                     const counts = pincodes
                     .map(pincode => ({
                         type: pincode,
-                        count: info.filter(item => item.pincode === pincode).length
+                        count: props.info.filter(item => item.pincode === pincode).length
                     }));
                     console.log(counts);
                     setPin([]);
@@ -37,7 +31,7 @@ const Customers_Per_District = ()=>{
                     });
                 
                 setloading(true);
-            }
+      
         }
             
 
@@ -80,8 +74,6 @@ const Customers_Per_District = ()=>{
     }
     else
     {
-        //console.log(info.length);
-        
         fetch_data();
         return (
             <></>
