@@ -68,7 +68,7 @@ function App(props) {
       <Routes>
         <Route index path="/" element={<Routs OnClickFunc={CPP}/>} />
             <Route path="/Agency" element={<Agency data={[props.Cust_data,props.Prod_data,props.Sub_data,props.Ven_data]}/>} />
-          <Route path="/Vendor" element={<Vendor/>} />
+          <Route path="/Vendor" element={<Vendor data={[props.Cust_data,props.Prod_data,props.Sub_data,props.Ven_data]}/>} />
       </Routes>
       </Router>
       

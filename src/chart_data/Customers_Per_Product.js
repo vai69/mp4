@@ -28,7 +28,7 @@ const Customers_Per_Product = (props)=>{
           if(subproducts.length==0&&props.data[1].length>0){
             var tmp=[]
             props.data[1].forEach((element) => {
-              tmp.push(element.ProductName);
+                  tmp.push(element.ProductName);
             });
             setSubProducts(tmp);
           }
