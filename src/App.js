@@ -1,25 +1,38 @@
-import Customers_Per_District from "./chart_data/Customers_Per_District";
-import Customers_Per_Product from "./chart_data/Customers_Per_Product";
-import Customers_Per_Vendors from "./chart_data/Customers_Per_Vendors";
+import Agency from "./Agency";
+import Vendor from "./Vendor";
+import Routs from "./Routs";
 import Test from "./chart_data/Test";
 import { useState,useEffect } from 'react';
 import { connect } from "react-redux";
 import setCustomer from "./actions/setCustomer";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Link
+} from "react-router-dom";
 import './App.css';
 
 function App(props) {
-  const[cpm ,setCmp]=useState(false);
   
   const CPP=()=>{
+    console.log("Nothing");
     if(props.Cust_data.length==0)
         props.setCustomer([1,2,3]);
-    setCmp(true);
+    if(props.Cust_data.length==0)
+        props.setCustomer([1,2,3]);
+
   }
   return (
     <>
-        <div className="agency"><h1>Agency</h1></div>
-        <div><h1>Vendors</h1></div>
-
+      <Router>
+      <Routes>
+        <Route index path="/" element={<Routs OnClickFunc={CPP}/>} />
+            <Route path="/Agency" element={<Agency Customer={props.Cust_data}/>} />
+          <Route path="/Vendor" element={<Vendor/>} />
+      </Routes>
+      </Router>
+      
     </>
   );
 }
