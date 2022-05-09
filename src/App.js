@@ -1,10 +1,14 @@
 import Agency from "./Agency";
 import Vendor from "./Vendor";
 import Routs from "./Routs";
-import Test from "./chart_data/Test";
+import { db } from "./utils/firebase_db";
+import { collection, getDocs } from "firebase/firestore";
 import { useState,useEffect } from 'react';
 import { connect } from "react-redux";
 import setCustomer from "./actions/setCustomer";
+import setProducts from "./actions/setProducts";
+import setSubscription from "./actions/setSubscription";
+import setVendors from "./actions/setVendors";
 import {
   BrowserRouter as Router,
   Routes,
@@ -15,20 +19,55 @@ import './App.css';
 
 function App(props) {
   
-  const CPP=()=>{
-    console.log("Nothing");
+  const CPP=async ()=>{
+    console.log("Data-fetching");
     if(props.Cust_data.length==0)
-        props.setCustomer([1,2,3]);
-    if(props.Cust_data.length==0)
-        props.setCustomer([1,2,3]);
-
+    {
+        var tmp=[];
+        const querySnapshot = await getDocs(collection(db, "customers"));
+        querySnapshot.docs.forEach((element) => {
+            var data = element.data();
+            tmp.push(data);
+        });
+          props.setCustomer(tmp);
+    }
+    if(props.Prod_data.length==0)
+    {
+        var tmp=[];
+        const querySnapshot = await getDocs(collection(db, "Products"));
+        querySnapshot.docs.forEach((element) => {
+            var data = element.data();
+            tmp.push(data);
+        });
+          props.setProducts(tmp);
+    }
+    if(props.Sub_data.length==0)
+    {
+        var tmp=[];
+        const querySnapshot = await getDocs(collection(db, "subscription"));
+        querySnapshot.docs.forEach((element) => {
+            var data = element.data();
+            tmp.push(data);
+        });
+          props.setSubscription(tmp);
+    }
+    if(props.Ven_data.length==0)
+    {
+        var tmp=[];
+        const querySnapshot = await getDocs(collection(db, "vendors"));
+        querySnapshot.docs.forEach((element) => {
+            var data = element.data();
+            tmp.push(data);
+        });
+          props.setVendors(tmp);
+    }
   }
   return (
     <>
       <Router>
       <Routes>
-        <Route index path="/" element={<Routs OnClickFunc={CPP}/>} />
-            <Route path="/Agency" element={<Agency Customer={props.Cust_data}/>} />
+        <Route index path="/fjm" element={<Routs OnClickFunc={CPP}/>} />
+            <Route path="/" element={<Agency/>} />
           <Route path="/Vendor" element={<Vendor/>} />
       </Routes>
       </Router>
@@ -43,6 +82,9 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   setCustomer: (payload) => dispatch(setCustomer(payload)),
+  setProducts: (payload) => dispatch(setProducts(payload)),
+  setVendors: (payload) => dispatch(setVendors(payload)),
+  setSubscription: (payload) => dispatch(setSubscription(payload)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

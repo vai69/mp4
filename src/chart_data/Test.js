@@ -7,9 +7,9 @@ import DonutChart from "react-donut-chart";
 
 
 const Test = (props)=>{
-        console.log(props.cust);
+        console.log(props.cnt);
         return (
-            <h1>fgds</h1>
+            <h1>Test {props.cnt}</h1>
         )
 
     

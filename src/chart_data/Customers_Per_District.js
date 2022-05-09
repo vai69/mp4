@@ -1,5 +1,4 @@
-import { db } from "../utils/firebase_db";
-import { collection, getDocs } from "firebase/firestore";
+
 import { useState,useEffect } from 'react';
 import {Bar} from 'react-chartjs-2';
 import { Chart, registerables } from 'chart.js';
@@ -16,11 +15,7 @@ const Customers_Per_District = ()=>{
 
 
         const fetch_data=async ()=>{
-            const querySnapshot = await getDocs(collection(db, "customers"));
-            querySnapshot.docs.forEach((element) => {
-                var data = element.data();
-                setInfo(arr => [...arr , data]);
-            });
+            
             if(info.length>0&&!loading)
             {
                 const pincodes = info
