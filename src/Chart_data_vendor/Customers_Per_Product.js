@@ -3,6 +3,8 @@ import { collection, getDocs } from "firebase/firestore";
 import { useState,useEffect } from 'react';
 import DonutChart from "react-donut-chart";
 import setProducts from "../actions/setProducts";
+import { CSVLink, CSVDownload } from "react-csv";
+import "../Agency.css"
 
 
 
@@ -121,9 +123,17 @@ const Customers_Per_Product = (props)=>{
           //console.log(obj);
           //setReactDonutChartdata(arr=>[...arr,obj]);
       }
+
+      var csvData=[];
+      var headers=['ProductName','No. of Customers'];
+      csvData.push(headers);
+      for(var i=0;i<products.length;i++)
+      {
+          csvData.push([products[i],count[i]]);
+      }
       //console.log("chartdata==="+reactDonutChartdata);
         return (
-            <div className="App">
+            <div >
             <DonutChart
                 width={500}
                 onMouseEnter={(item) => reactDonutChartOnMouseEnter(item)}
@@ -134,7 +144,11 @@ const Customers_Per_Product = (props)=>{
                 selectedOffset={reactDonutChartSelectedOffset}
                 onClick={(item, toggled) => reactDonutChartHandleClick(item, toggled)}
             />
+              {/* <div >
+                  <CSVLink class="download-btn" filename='Customers_per_Product.csv' data={csvData}>Customers_per_Product</CSVLink>
+              </div> */}
             </div>
+
         );
     }
     else{

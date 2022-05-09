@@ -14,3 +14,11 @@
   width: 60%;
   height:auto;
 }
+.download-btn{
+  font-size: 20px;
+  border-radius: 30px;
+  padding: 10px 40%;
+  color:white;
+  background-color: rgb(31, 27, 27);
+  box-shadow: 5px 5px gray;
+}

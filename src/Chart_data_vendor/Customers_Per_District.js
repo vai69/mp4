@@ -1,7 +1,9 @@
 import { useState } from 'react';
 import {Bar} from 'react-chartjs-2';
 import { Chart, registerables } from 'chart.js';
+import { CSVLink, CSVDownload } from "react-csv";
 Chart.register(...registerables);
+import "../Agency.css"
 
 
 const Customers_Per_District = (props)=>{
@@ -61,6 +63,13 @@ const Customers_Per_District = (props)=>{
         
         console.log(pin);
         console.log(cnt);
+        var csvData=[];
+        var headers=['Area Pincode','No. of Customers'];
+        csvData.push(headers);
+        for(var i=0;i<pin.length;i++)
+        {
+            csvData.push([pin[i],cnt[i]]);
+        }
 
         const state = {
             labels:pin,
@@ -75,6 +84,7 @@ const Customers_Per_District = (props)=>{
             ]
           }
         return (
+          <>
             <Bar
             data={state}
             options={{
@@ -90,6 +100,11 @@ const Customers_Per_District = (props)=>{
               }
             }}
           />
+          <br></br>
+              <div >
+                  <CSVLink class="download-btn" filename='Customers_per_district.csv' data={csvData}>Customers_per_Area</CSVLink>
+              </div>
+          </>
         )
     }
     else
