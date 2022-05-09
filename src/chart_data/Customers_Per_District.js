@@ -12,6 +12,8 @@ const Customers_Per_District = (props)=>{
 
 
         const fetch_data=async ()=>{
+            console.log("data==="+props.info);
+          if(props.info.length>0){
              const pincodes = props.info
                     .map(dataItem => dataItem.pincode) // get all media types
                     .filter((pincodes, index, array) => array.indexOf(pincodes) === index); // filter out duplicates
@@ -31,6 +33,7 @@ const Customers_Per_District = (props)=>{
                     });
                 
                 setloading(true);
+          }
       
         }
             

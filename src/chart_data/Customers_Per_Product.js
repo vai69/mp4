@@ -2,10 +2,11 @@ import { db } from "../utils/firebase_db";
 import { collection, getDocs } from "firebase/firestore";
 import { useState,useEffect } from 'react';
 import DonutChart from "react-donut-chart";
+import setProducts from "../actions/setProducts";
 
 
 
-const Customers_Per_Product = ()=>{
+const Customers_Per_Product = (props)=>{
 
     const [products , setProducts] = useState([]);
     const [count , setCount] = useState([]);
@@ -14,30 +15,27 @@ const Customers_Per_Product = ()=>{
     // const [reactDonutChartdata,setReactDonutChartdata]=useState([]);
 
     const fetch_data=async ()=>{
-        //setProducts([]);
-        const querySnapshot = await getDocs(collection(db, "Products"));
-        if(products.length==0){
-          setProducts([]);
-            querySnapshot.docs.forEach((element) => {
-                var data = element.data();
-                console.log(data.productName)
-                setProducts(arr => [...arr , data.productName]);
+        
+        //console.log("sub=="+JSON.stringify(props.data[1]))
+        if(products.length==0&&props.data[0].length>0){
+          var tmp=[];
+            props.data[0].forEach((element) => {
+                tmp.push(element.productName);
             });
+            setProducts(tmp);
           }
             //setSubProducts([]);
-          if(subproducts.length==0){
-            const queryS = await getDocs(collection(db, "subscription"));
-            setSubProducts([]);
-            queryS.docs.forEach((element) => {
-                var data = element.data();
-                //console.log(data.productName)
-                setSubProducts(arr => [...arr , data.ProductName]);
+          if(subproducts.length==0&&props.data[1].length>0){
+            var tmp=[]
+            props.data[1].forEach((element) => {
+              tmp.push(element.ProductName);
             });
+            setSubProducts(tmp);
           }
           if(products.length>0 && subproducts.length>0)
           {
-              console.log("in products count");
-              setCount([])
+              //console.log("in products count");
+              var tmp=[];
               products.forEach(element => {
                 let c=0;
                 subproducts.forEach(ele => {
@@ -45,8 +43,9 @@ const Customers_Per_Product = ()=>{
                       c += 1;
                     }
                 });
-                setCount(arr => [...arr,c]);
+                tmp.push(c)
               });
+              setCount(tmp);
               setloading(true);
           }
            
@@ -105,12 +104,12 @@ const Customers_Per_Product = ()=>{
 
     if(loading&&count.length>0)
     {
-      console.log(products);
-      console.log(subproducts);
-      console.log(count);
+      // console.log(products);
+      // console.log(subproducts);
+      // console.log(count);
       
       var reactDonutChartdata = [];
-      for(var i=0;i<count.length;i++)
+      for(var i=0;i<products.length;i++)
       {
           var obj={
             label:products[i],
@@ -118,10 +117,10 @@ const Customers_Per_Product = ()=>{
            color: reactDonutChartBackgroundColor[i]
           }
           reactDonutChartdata.push(obj);
-          console.log(obj);
+          //console.log(obj);
           //setReactDonutChartdata(arr=>[...arr,obj]);
       }
-      console.log(reactDonutChartdata);
+      //console.log("chartdata==="+reactDonutChartdata);
         return (
             <div className="App">
             <DonutChart

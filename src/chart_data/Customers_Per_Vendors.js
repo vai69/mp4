@@ -6,7 +6,7 @@ import { Chart, registerables } from 'chart.js';
 Chart.register(...registerables);
 
 
-const Customers_Per_Vendors = ()=>{
+const Customers_Per_Vendors = (props)=>{
 
     const [vendors,setVendors]=useState([]);
     const [name,setNames]=useState([]);
@@ -14,44 +14,44 @@ const Customers_Per_Vendors = ()=>{
     const [cnt,setCnt] =useState([]);
     const [loading,setLoading]=useState(false);
         const fetch_data=async ()=>{
-            if(vendors.length==0){
-                var tmp=[];
-                var tname=[];
-                const q = query(collection(db, "vendors"), where("Agency", "==", "GyfrtgrRCkOANqoppXWH"));
-
-                    const querySnapshot = await getDocs(q);
-                    querySnapshot.forEach((doc) => {
-                    // doc.data() is never undefined for query doc snapshots
-                    tmp.push(doc.id);
-                    tname.push(doc.data().firnName);
-                    console.log(doc.id, " => ", doc.data());
-                });
-                setVendors(tmp);
-                setNames(tname);
-            }
-            if(vendors.length>0)
+            if(props.data[0].length>0)
             {
-                const queryS = await getDocs(collection(db, "subscription"));
-                var tmp=[];
-                queryS.docs.forEach((element) => {
-                    var data = element.data();
-                    tmp.push(data.vendorId);
-                });
-                setCustomer(tmp);
-            }
-            if(customers.length>0)
-            {
-                var tmp=[]
-                vendors.forEach((element) => {
-                    var c=0;
-                    customers.forEach((t) => {
-                        if(t==element)
-                            c+=1;
+                if(vendors.length==0){
+                    var tmp=[];
+                    var tname=[];
+                        props.data[0].forEach((doc) => {
+                        // doc.data() is never undefined for query doc snapshots
+                        if(doc.Agency=="GyfrtgrRCkOANqoppXWH"){
+                            tmp.push(doc.vId);
+                            tname.push(doc.firnName);
+                        }
                     });
-                    tmp.push(c);
-                });
-                setCnt(tmp);
-                setLoading(true);
+                    setVendors(tmp);
+                    setNames(tname);
+                }
+                if(vendors.length>0)
+                {
+                
+                    var tmp=[];
+                    props.data[1].forEach((element) => {
+                        tmp.push(element.vendorId);
+                    });
+                    setCustomer(tmp);
+                }
+                if(customers.length>0)
+                {
+                    var tmp=[]
+                    vendors.forEach((element) => {
+                        var c=0;
+                        customers.forEach((t) => {
+                            if(t==element)
+                                c+=1;
+                        });
+                        tmp.push(c);
+                    });
+                    setCnt(tmp);
+                    setLoading(true);
+                }
             }
         }
             
@@ -62,8 +62,34 @@ const Customers_Per_Vendors = ()=>{
     {
         console.log("Name== "+name);
         console.log("Customerss== "+cnt);
+        const state = {
+            labels:name,
+            datasets: [
+              {
+                label: 'Vendors',
+                backgroundColor: 'rgba(75,192,192,1)',
+                borderColor: 'rgba(0,0,0,1)',
+                borderWidth: 2,
+                data: cnt
+              }
+            ]
+          }
         return (
-            <></>
+            <Bar
+            data={state}
+            options={{
+              plugins: {
+                title: {
+                  display: true,
+                  text: "customers per Vendors"
+                },
+                legend: {
+                  display: true,
+                  position: "bottom"
+               }
+              }
+            }}
+          />
         )
     }
     else

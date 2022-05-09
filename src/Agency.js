@@ -7,6 +7,7 @@ import "./Agency.css"
 
 
 const Agency = (props)=>{
+    //console.log("agency=="+JSON.stringify(props.data[0]));
         return (
             //<Customers_Per_District/>
             <>
@@ -18,9 +19,24 @@ const Agency = (props)=>{
                     <button  class="btn-ag"><b>Customers Per Vendors</b></button>
                     {cpm==3 ? (<Test cnt={cpm}/>) :(<></>) }
                 </div> */}
-                <Customers_Per_District info={props.Cust_data}/>
-                <Customers_Per_Product />
-                <Customers_Per_Vendors />
+                <div class="graph-gr">
+                    <div class="dist-gr">
+                        <Customers_Per_District info={props.data[0]}/> 
+                    </div>
+                    <hr></hr>
+                    <br></br>
+                    <br></br>
+                    <br></br>
+                    <div class="prd-gr">
+                    <h4>Customers Per Product</h4>
+                        <Customers_Per_Product data={[props.data[1],props.data[2]]} />
+                        
+                    </div>
+                    <hr></hr>
+                    <div class="ven-gr">
+                        <Customers_Per_Vendors data={[props.data[3],props.data[2]]}/> 
+                    </div>
+                </div>
 
             </>
         )
