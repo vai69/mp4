@@ -21,6 +21,11 @@ export default (state, action) => {
           ...state,
             Ven_data: action.payload
         };
+    case "dataBill":
+        return {
+          ...state,
+            Bill_data: action.payload
+        };
 
       default:
         return state;

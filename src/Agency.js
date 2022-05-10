@@ -21,7 +21,7 @@ const Agency = (props)=>{
                 </div> */}
                 <div class="graph-gr">
                     <div class="dist-gr">
-                        <Customers_Per_District info={props.data[0]}/> 
+                        <Customers_Per_District info={[props.data[0],props.data[2],props.data[3]]}/> 
                     </div>
                     <hr></hr>
                     <br></br>

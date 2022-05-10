@@ -9,6 +9,7 @@ import setCustomer from "./actions/setCustomer";
 import setProducts from "./actions/setProducts";
 import setSubscription from "./actions/setSubscription";
 import setVendors from "./actions/setVendors";
+import Bill_generation from "./bill_genration/Bill_generation";
 import {
   BrowserRouter as Router,
   Routes,
@@ -66,9 +67,9 @@ function App(props) {
     <>
       <Router>
       <Routes>
-        <Route index path="/" element={<Routs OnClickFunc={CPP}/>} />
-            <Route path="/Agency" element={<Agency data={[props.Cust_data,props.Prod_data,props.Sub_data,props.Ven_data]}/>} />
-          <Route path="/Vendor" element={<Vendor data={[props.Cust_data,props.Prod_data,props.Sub_data,props.Ven_data]}/>} />
+        <Route index path="/" element={<Bill_generation/>} />
+            {/* <Route path="/Agency" element={<Agency data={[props.Cust_data,props.Prod_data,props.Sub_data,props.Ven_data]}/>} />
+          <Route path="/Vendor" element={<Vendor data={[props.Cust_data,props.Prod_data,props.Sub_data,props.Ven_data]}/>} /> */}
       </Routes>
       </Router>
       

@@ -16,23 +16,39 @@ const Customers_Per_District = (props)=>{
         const fetch_data=async ()=>{
             console.log("data==="+props.info);
           if(props.info.length>0){
-             const pincodes = props.info
+             const pincodes = props.info[0]
                     .map(dataItem => dataItem.pincode) // get all media types
                     .filter((pincodes, index, array) => array.indexOf(pincodes) === index); // filter out duplicates
-                
-                    const counts = pincodes
-                    .map(pincode => ({
-                        type: pincode,
-                        count: props.info.filter(item => item.pincode === pincode).length
-                    }));
-                    console.log(counts);
-                    setPin([]);
-                      setCnt([]);
-                    counts.forEach((element) => {
-                        console.log(element);
-                        setPin(arr => [...arr , `${element.type}`]);
-                        setCnt(arr => [...arr , `${element.count}`]);
+                //console.log("p=="+pincodes);
+                    var tmp=[];
+                  props.info[2].forEach((vd)=>{
+                    props.info[1].forEach((doc) => {
+                    props.info[0].forEach((ele)=>{
+                            if(doc.firstName==ele.firstName && doc.lastName==ele.lastName&&doc.vendorId==vd.vId)
+                            {
+                                console.log("Match"+ele.pincode)
+                                tmp.push(ele.pincode);
+                            }
                     });
+                  });
+                });
+                console.log("tmpPincode==="+tmp);
+                var ct=[]
+                pincodes.forEach((doc) => {
+                    // doc.data() is never undefined for query doc snapshots
+                    var c=0
+                    tmp.forEach((ele)=>{
+                            if(doc==ele)
+                            {
+                                c+=1;
+                            }
+                            
+                    });
+                    ct.push(c);
+                });
+               console.log(ct)
+                setCnt(ct);
+                setPin(pincodes);
                 
                 setloading(true);
           }
@@ -42,10 +58,10 @@ const Customers_Per_District = (props)=>{
 
         
 
-    if(loading)
+    if(loading&&pin.length>0)
     {
         
-        console.log(pin);
+        console.log("pins=="+pin);
         var csvData=[];
         var headers=['Area Pincode','No. of Customers'];
         csvData.push(headers);

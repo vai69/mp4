@@ -1,0 +1,32 @@
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 55%;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    margin-left: 25%;
+  }
+  
+  td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+  }
+  h2{
+    border: 1px solid black;
+  }
+
+  .main_div{
+    border: 1px solid black;
+    width:50%;
+    margin-top: 5%;
+    margin-left: 25%;
+    padding:1%;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    
+  }
+  
+ 
