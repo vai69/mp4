@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import setBill from "../actions/setBill";
 import setProducts from "../actions/setProducts";
 import { db } from "../utils/firebase_db";
+import { app } from "../utils/firebase_db";
 import { collection, getDocs } from "firebase/firestore";
 import "./Bill_generation.css"
 
@@ -26,12 +27,15 @@ const Bill_generation = (props) => {
             const querySnapshot = await getDocs(collection(db, "Billing Report"));
             querySnapshot.docs.forEach((element) => {
                 var data = element.data();
+                console.log(data.FName);
                 if(data.FName=="Sukant"&&data.LName=="Jadhav")
                 {
                     bill_rpt=data;
                     docid=element.id;
+                    
                 }
             });
+            console.log("bill_rpt==="+bill_rpt);
             if(bill_rpt.length>0)
             {
                 setBal(bill_rpt.balance);
@@ -55,16 +59,20 @@ const Bill_generation = (props) => {
             var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
             console.log(Difference_In_Days);
             var price=0;
-            props.data.Prod_data.forEach((doc)=>{
+            props.Prod_data.forEach((doc)=>{
                 if(doc.productName=="Loksatta")
                     price=doc.sundayPrice;
             });
-            const ref = db.ref('server/saving-data/fireblog');
+            console.log("docid"+docid);
+            
             if(docid=="")
             {
-                //insert
-                const usersRef = ref.child('Billing Report');
-                    usersRef.set({
+                //insertBal);
+                console.log("In 1==")
+                 console.log(Bal);
+                  console.log(price);
+                  const docRef = firebase.firestore().collection('Projects').doc();
+                  const userRef = db.collection("Billing Report").add({
                         FName:"Meenatai",
                         LName:"Tupe",
                         product:"Loksatta",
@@ -78,6 +86,9 @@ const Bill_generation = (props) => {
             else
             {
                  //update
+                 console.log("In 2==")
+                 console.log(Bal);
+                  console.log(price);
                  db.collection("users").doc(doc.id).update({
                     Balance:Bal,
                     currentBill:price*Difference_In_Days,
