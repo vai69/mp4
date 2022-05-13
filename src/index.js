@@ -6,13 +6,13 @@ import reportWebVitals from './reportWebVitals';
 import { Provider } from "react-redux";
 
 import configureStore from "./store";
-import Bill_generation from './bill_genration/Bill_generation';
+import Bill from './bill_genration/Bill';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <Provider store={configureStore()}>
   <React.StrictMode>
-    <Bill_generation />
+    <Bill />
   </React.StrictMode>
   </Provider>
 );
